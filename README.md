@@ -552,13 +552,12 @@ JAR を実行した際に Tomcat インスタンスを生成する main メソ�
 ```java
 public class Main {
 
-    public static final Optional<String> port = Optional.ofNullable(System.getenv("PORT"));
-
     public static void main(String[] args) throws Exception {
         String contextPath = "/";
         String appBase = ".";
+        String path = "8080";
         Tomcat tomcat = new Tomcat();     
-        tomcat.setPort(Integer.valueOf(port.orElse("8080") ));
+        tomcat.setPort(Integer.valueOf(path));
         tomcat.getHost().setAppBase(appBase);
         tomcat.addWebapp(contextPath, appBase);
         tomcat.start();
@@ -723,3 +722,51 @@ Application Containr Cloud Service は、同一のアプリケーションを複
   - アプリケーション内に全てのライブラリを展開したアーカイブ・ファイルを作成する
 - クラスパスの利用
   - ライブラリファイルをアプリケーション・アーカイブに含めて、実行する際にコマンドラインからクラスパスを指定して起動する
+
+
+### Application Container Cloud Service 上での実行構成
+
+Application Container Cloud Service では、**ホスト名** と **ポート番号** をアプリケーションに対して設定する必要があります。これらの情報は、環境変数を用いて、***HOSTNAME*** と ***PORT*** として設定している値を実行時に取得し使用します。
+
+以下のように **ホスト名** と **ポート番号** を環境変数から取得するように変更します:
+
+```java
+public static final Optional<String> PORT = Optional.ofNullable(System.getenv("PORT"));
+public static final Optional<String> HOSTNAME = Optional.ofNullable(System.getenv("HOSTNAME"));
+
+public static void main(String[] args) throws Exception {
+    Tomcat tomcat = new Tomcat();
+    tomcat.setPort(Integer.valueOf(PORT.orElse("8080")));
+    tomcat.setHostname(HOSTNAME.orElse("localhost"));
+```
+
+### manifest.json を用いた Application Container Cloud Service 用のパッケージング
+
+**manifest.json** とは、デプロイするアプリケーションのメタ情報を記述した JSON ファイルです。ここには、次のような情報を記述します:
+
+- ランタイムのバージョン (必須項目)
+  - Javaの場合: 7 または 8
+  - Nodeの場合: 0.10 , 0.12, 4.4, または 6.3
+  - PHPの場合: 5.6 または 7.0
+- アプリケーションの起動コマンド (必須項目)
+- リリース情報
+  - build: ビルドに関する値
+  - commit: コミットに関する値
+  - version: バージョンに関する値
+
+今回は、次のように記述します:
+
+```json
+{
+    "runtime":{
+        "majorVersion": "8"
+    },
+    "command": "java -jar employees-app-1.0-SNAPSHOT-jar-with-dependencies.jar",
+    "release": {
+        "build": "1.0-SNAPSHOT",
+        "commit": "On-P to ACCS",
+        "version": "20161216"
+    },
+    "notes": "Embedded Tomcat Test"
+}
+```
