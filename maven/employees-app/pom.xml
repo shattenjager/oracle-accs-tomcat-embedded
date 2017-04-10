@@ -151,6 +151,18 @@
                     <instances>1</instances>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.oracle.jp.shinyay</groupId>
+                <artifactId>scs-maven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <identitydomain>${opc.identitydomain}</identitydomain>
+                    <user>${opc.user}</user>
+                    <password>${opc.password}</password>
+                    <storage>${scs.container}</storage>
+                    <object>${project.name}-${project.version}.zip</object>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
