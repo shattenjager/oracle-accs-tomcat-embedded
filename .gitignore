@@ -1,2 +1,4 @@
 maven/employees-app/.idea/
 maven/employees-app/target/
+maven/employees-app/dependency-reduced-pom.xml
+maven/employees-app/metafiles/
