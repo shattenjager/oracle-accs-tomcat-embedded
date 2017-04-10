@@ -128,6 +128,29 @@
                     </filters>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.oracle.jp.shinyay</groupId>
+                <artifactId>accs-maven-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <configuration>
+                    <region>${opc.region}</region>
+                    <identitydomain>${opc.identitydomain}</identitydomain>>
+                    <user>${opc.user}</user>
+                    <password>${opc.password}</password>
+                    <storage>${scs.container}</storage>
+                    <appName>my-sample</appName>
+                    <runtime>java</runtime>
+                    <subscription>Hourly</subscription>
+                    <archiveURL>${scs.container}/${project.name}-${project.version}.zip</archiveURL>
+                    <metaJsonPath>${project.basedir}\metafiles</metaJsonPath>
+                    <archiveName>${project.name}-${project.version}</archiveName>
+                    <majorVersion>8</majorVersion>
+                    <command>java -jar ${project.artifactId}-${project.version}.jar</command>
+                    <version>${project.version}</version>
+                    <memory>1G</memory>
+                    <instances>1</instances>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
