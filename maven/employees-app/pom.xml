@@ -131,7 +131,7 @@
             <plugin>
                 <groupId>com.oracle.jp.shinyay</groupId>
                 <artifactId>accs-maven-plugin</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>1.0-0</version>
                 <configuration>
                     <region>${opc.region}</region>
                     <identitydomain>${opc.identitydomain}</identitydomain>>
